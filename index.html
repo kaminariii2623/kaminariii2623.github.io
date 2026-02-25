@@ -1,0 +1,407 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
+    <title>Birthday Letter - Anisa Edition</title>  
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Press+Start+2P&display=swap" rel="stylesheet">  
+    <style>  
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}  
+        body{  
+            font-family:'Patrick Hand', cursive;  
+            overflow:hidden;  
+            position: fixed;  
+            width: 100%;  
+            height: 100%;  
+            background: #ffd1dc;  
+        }  /* Variasi Background Per Halaman */  
+    #page1 {  
+        background: linear-gradient(135deg, #ffd1dc, #ffe3ec, #fff0f5, #ffe0cc);  
+        background-size: 300% 300%;  
+        animation: bgMove 10s ease infinite;  
+    }  
+    #page2 {  
+        background-color: #fff5f7;  
+        background-image: radial-gradient(#ffb6c1 1px, transparent 1px);  
+        background-size: 25px 25px;  
+    }  
+    #page3 {  
+        background: radial-gradient(circle at center, #fff0f5, #ffd1dc 100%);  
+    }  
+
+    @keyframes bgMove{  
+        0%{background-position:0% 50%;}  
+        50%{background-position:100% 50%;}  
+        100%{background-position:0% 50%;}  
+    }  
+
+    /* Navigation Logic */  
+    .page {  
+        position: absolute;  
+        width: 100%;  
+        height: 100vh;  
+        display: flex;  
+        flex-direction: column;  
+        justify-content: center;  
+        align-items: center;  
+        padding: 20px;  
+        transition: 0.8s ease-in-out;  
+        text-align: center;  
+        top: 0; left: 0;  
+        visibility: hidden;  
+        opacity: 0;  
+        z-index: 1;  
+    }  
+    .page.active {  
+        visibility: visible;  
+        opacity: 1;  
+        z-index: 10;  
+    }  
+    .page.exit {  
+        transform: scale(0.9) translateY(-20px);  
+        opacity: 0;  
+        visibility: hidden;  
+    }  
+
+    /* Animations for Entrance */  
+    @keyframes fadeInScale {  
+        0% { opacity: 0; transform: scale(0.5) rotate(var(--r, 0deg)); }  
+        100% { opacity: 1; transform: scale(1) rotate(var(--r, 0deg)); }  
+    }  
+    @keyframes simpleFade {  
+        from { opacity: 0; transform: translateY(10px); }  
+        to { opacity: 1; transform: translateY(0); }  
+    }  
+
+    /* ===== PAGE 1 CONTENT ===== */  
+    .typing {  
+        font-family: 'Press Start 2P', cursive;  
+        color: #d63384;  
+        font-size: 16px;  
+        margin-bottom: 10px;  
+        white-space: nowrap;  
+        overflow: hidden;  
+        width: 0;  
+        border-right: 3px solid #d63384;  
+        animation: type 2.5s steps(25) forwards, blink 0.7s infinite;  
+    }  
+    @keyframes type { from { width: 0; } to { width: 100%; } }  
+    @keyframes blink { 50% { border-color: transparent; } }  
+
+    .subtitle {   
+        font-size:18px; margin-bottom:20px; color:#666;   
+        opacity: 0; animation: simpleFade 1s forwards; animation-delay: 2.5s;  
+    }  
+
+    .polaroid-gallery {  
+        display: grid;  
+        grid-template-columns: repeat(2, 1fr);  
+        gap: 15px;  
+        margin-bottom: 30px;  
+    }  
+    .polaroid {  
+        background: white;  
+        padding: 10px 10px 25px 10px;  
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);  
+        width: 130px;  
+        opacity: 0;  
+        animation: fadeInScale 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;  
+    }  
+    .polaroid:nth-child(1) { --r: -4deg; animation-delay: 3.5s; transform: rotate(-4deg); }  
+    .polaroid:nth-child(2) { --r: 3deg; animation-delay: 4s; transform: rotate(3deg); }  
+    .polaroid:nth-child(3) { --r: 2deg; animation-delay: 4.5s; transform: rotate(2deg); }  
+    .polaroid:nth-child(4) { --r: -3deg; animation-delay: 5s; transform: rotate(-3deg); }  
+
+    .polaroid img { width: 100%; height: 110px; object-fit: cover; border: 1px solid #eee; }  
+    .polaroid .caption { font-size: 13px; color: #d63384; margin-top: 8px; }  
+
+    .romantic-text {   
+        margin-bottom:25px; font-size:19px; color:#444; line-height:24px; max-width: 500px;   
+        opacity: 0; animation: simpleFade 1s forwards; animation-delay: 6s;  
+    }  
+
+    .btn {  
+        padding: 15px 25px;  
+        border: none;  
+        border-radius: 50px;  
+        background: #ff85a2;  
+        color: white;  
+        font-family: 'Press Start 2P', cursive;  
+        font-size: 10px;  
+        cursor: pointer;  
+        box-shadow: 0 8px 20px rgba(255, 105, 135, 0.4);  
+        position: relative;  
+        z-index: 100;  
+    }  
+
+    #page1 .btn {  
+        opacity: 0;  
+        animation: simpleFade 1s forwards, pulse 2s infinite;  
+        animation-delay: 7.5s, 8.5s;   
+    }  
+
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }  
+
+    /* ===== PAGE 2 & ENVELOPE ===== */  
+    .envelope-wrapper {  
+        position: relative; width: 180px; height: 120px; cursor: pointer; margin-bottom: 40px;  
+    }  
+    .envelope {  
+        width: 100%; height: 100%; background: #fff; position: absolute;  
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 5px; z-index: 2;  
+    }  
+    .flap-main {  
+        position: absolute; top: 0; width: 0; height: 0;  
+        border-left: 90px solid transparent; border-right: 90px solid transparent;  
+        border-top: 70px solid #ffc2d1; transform-origin: top; transition: 0.6s ease; z-index: 4;  
+    }  
+    .paper-mini {  
+        position: absolute; width: 160px; height: 80px; background: #ffe5ec;  
+        left: 10px; top: 10px; z-index: 3; transition: 0.6s ease; border-radius: 5px;  
+    }  
+    .envelope-wrapper.open .flap-main { transform: rotateX(180deg); z-index: 1; }  
+    .envelope-wrapper.open .paper-mini { transform: translateY(-80px); }  
+
+    .popup {  
+        position: fixed; top:0; left:0; width:100%; height:100%;  
+        background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);  
+        display: flex; align-items: center; justify-content: center;  
+        opacity: 0; pointer-events: none; transition: 0.5s ease; z-index: 1000;  
+    }  
+    .popup.show { opacity: 1; pointer-events: auto; }  
+    .popup-content {  
+        width: 85%; max-width: 400px; background: #fff; border-radius: 20px;  
+        padding: 30px; text-align: center; transform: translateY(50px);  
+        transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);  
+        display: flex;  
+        flex-direction: column;  
+        max-height: 80vh; /* Membatasi tinggi popup agar tidak melebihi layar */  
+    }  
+    .popup.show .popup-content { transform: translateY(0); }  
+      
+    /* UPDATE: Bagian surat agar bisa di-scroll */  
+    .paper-inner {   
+        line-height: 1.6;   
+        font-size: 19px;   
+        color: #444;   
+        text-align: left;   
+        border-left: 4px solid #ff85a2;   
+        padding-left: 15px;  
+        overflow-y: auto; /* Mengaktifkan scroll vertikal */  
+        max-height: 400px; /* Batas tinggi area teks */  
+        padding-right: 10px;  
+    }  
+      
+    /* Custom scrollbar untuk keindahan */  
+    .paper-inner::-webkit-scrollbar { width: 5px; }  
+    .paper-inner::-webkit-scrollbar-thumb { background: #ffc2d1; border-radius: 10px; }  
+
+    /* ===== PAGE 3 ===== */  
+    .cake-wrapper {  
+        position: relative; height: 280px; display: flex; justify-content: center; align-items: flex-end; margin-top: 20px;  
+    }  
+    .cake-plate { width: 270px; height: 12px; background: #eee; border-radius: 100px; position: absolute; bottom: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }  
+    .tier-1 { width: 220px; height: 100px; background: #fff0f5; border-radius: 15px; position: relative; border: 3px solid #ffc2d1; }  
+    .tier-2 { width: 160px; height: 80px; background: #ffffff; border-radius: 15px; position: absolute; bottom: 100px; border: 3px solid #ffc2d1; }  
+    .drip { position: absolute; top: 0; width: 100%; height: 25px; background: #ff85a2; border-radius: 0 0 15px 15px; }  
+      
+    .number-candle-container { position: absolute; bottom: 185px; display: flex; gap: 20px; z-index: 10; }  
+    .digit { font-family: 'Press Start 2P'; font-size: 45px; color: #d63384; position: relative; text-shadow: 3px 3px #ffc2d1; cursor: pointer; }  
+      
+    .flame-modern {  
+        position: absolute; top: -25px; left: 50%; transform: translateX(-50%);  
+        width: 18px; height: 26px; background: #ffd700; border-radius: 50% 50% 20% 20%;  
+        box-shadow: 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.4);   
+        animation: flicker 0.6s infinite alternate; pointer-events: none;  
+    }  
+      
+    .smoke {  
+        position: absolute; top: -30px; left: 50%; width: 2px; height: 20px;  
+        background: rgba(200,200,200,0.8); opacity: 0; pointer-events: none;  
+    }  
+    .flame-modern.out { display: none; }  
+    .flame-modern.out + .smoke { animation: smokeRise 2s forwards; }  
+
+    @keyframes flicker {   
+        0% { transform: translateX(-50%) scale(1) rotate(-2deg); }  
+        100% { transform: translateX(-50%) scale(1.1) rotate(2deg); }  
+    }  
+    @keyframes smokeRise {  
+        0% { opacity: 0.8; transform: translateX(-50%) translateY(0); }  
+        100% { opacity: 0; transform: translateX(20px) translateY(-50px) scale(3); }  
+    }  
+
+    #hbd-text {   
+        font-family: 'Press Start 2P'; font-size: 18px; color: #d63384;   
+        margin-top: 35px; opacity: 0; transform: scale(0.5); transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);  
+    }  
+    #hbd-text.visible { opacity: 1; transform: scale(1); animation: shake 0.5s infinite; }  
+    @keyframes shake { 0% { transform: rotate(1deg); } 50% { transform: rotate(-1deg); } 100% { transform: rotate(1deg); } }  
+
+    .heart-shape { position: absolute; color: rgba(255, 105, 180, 0.4); z-index: 1; pointer-events: none; animation: floatUp linear forwards; }  
+    #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2000; }  
+      
+    .pop-emoji {  
+        position: absolute; font-size: 24px; pointer-events: none; z-index: 100;  
+        animation: emojiPop 1.5s ease-out forwards;  
+    }  
+    @keyframes emojiPop {  
+        0% { transform: translate(0, 0) scale(0); opacity: 1; }  
+        100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }  
+    }  
+</style>
+
+</head>  
+<body>  <canvas id="confetti-canvas"></canvas>
+
+<div class="page active" id="page1">  
+    <h1 class="typing">Happy Birthday, Anisa 🎂✨</h1>  
+    <p class="subtitle">Today is your special day 🤍</p>  
+    <div class="polaroid-gallery">  
+      <div class="polaroid"><img src="foto1.jpg" alt="1"><div class="caption">Gorgeous ✨</div></div>  
+      <div class="polaroid"><img src="foto2.jpg" alt="2"><div class="caption">Beautiful 🤍</div></div>  
+      <div class="polaroid"><img src="foto3.jpg" alt="3"><div class="caption">Stunning 🌸</div></div>  
+      <div class="polaroid"><img src="foto4.jpg" alt="4"><div class="caption">Perfect 🎂</div></div>  
+    </div>  
+    <p class="romantic-text">  
+      Dunia lebih indah sejak kamu lahir ✨<br>  
+      dan jauh lebih indah sejak aku mengenalmu.  
+    </p>  
+    <button class="btn" onclick="nextPage()">Open My Letter 💌</button>  
+</div>  <div class="page" id="page2">  
+  <h2 id="page2-title" style="font-family:'Press Start 2P'; font-size:12px; color:#d63384; margin-bottom:30px;">Tap to open 💌</h2>  
+  <div class="envelope-wrapper" id="envWrapper" onclick="animateAndOpen()">  
+    <div class="flap-main"></div><div class="paper-mini"></div><div class="envelope"></div>  
+  </div>  
+  <button class="btn" id="toPage3" style="display:none; opacity:0; transition:0.5s;" onclick="goToPage3()">Tiup Lilin 🎂</button>  
+</div>  <div class="page" id="page3">  
+    <h2 style="font-family:'Press Start 2P'; font-size:12px; color:#d63384; margin-bottom:10px;">Make a wish...</h2>  
+    <p style="color: #d63384; font-size: 18px; margin-bottom: 10px;">Tap lilinnya, Nisa! 🎂</p>  
+    <div class="cake-wrapper" onclick="blowAllCandles()">  
+        <div class="cake-plate"></div>  
+        <div class="number-candle-container">  
+            <div class="digit">1<div class="flame-modern"></div><div class="smoke"></div></div>  
+            <div class="digit">9<div class="flame-modern"></div><div class="smoke"></div></div>  
+        </div>  
+        <div class="tier-2"><div class="drip"></div></div>  
+        <div class="tier-1"><div class="drip"></div></div>  
+    </div>  
+    <h1 id="hbd-text">HAPPY BIRTHDAY NISA! 🥳✨</h1>  
+</div>  <div class="popup" id="popup">  
+  <div class="popup-content">  
+    <div style="font-size: 40px; margin-bottom: 15px;">🎀</div>  
+    <div class="paper-inner">  
+        Dear Anisa,<br><br>  
+Untuk segala hal yang akan aku ucapkan sekarang hal terpenting dan yang utama adalah rasa terima kasih. Terima kasih sudah lahir ke dunia dan menjadi gadis mungil yang cantik, pintar, dan baik hati. Terima kasih karena selalu menghadapi shit nya dunia dengan ekspresif karena tidak semua orang bisa melakukan itu, terima kasih juga sudah hadir dan menjadi temanku yang aku syukuri dan aku sayangi, dari semua hal yang terjadi di hidupku mengenal kamu adalah salah satu scene favoriteku, jadi terima kasih Nis karena hidup dengan baik hingga saat ini. <br><br>  
+        Selamat atas bertambahnya angka usia dan berkurangnya jatah hidup di dunia. Kamu adalah manusia yang paling dinantikan hadirnya yang tumbuh menjadi manusia kuat tangguh menghadapi dunia. <br><br>  
+        semoga hal baik selalu beriringan denganmu, semoga semesta senantiasa berpihak padamu, semoga jalanmu untuk mencapai masa depan yang cerah di permudahkan, teruslah tumbuh, teruslah melangkah & berbahagia . aku akan selalu bangga atas setiap proses yang sudah kamu lalui. selamat berkelana, i will always support u from afar. <br><br>  
+        Happy level up, Cah Ayu! 🤍  
+        <br><br>  
+    </div>  
+    <button class="btn" style="margin-top:20px; font-size:8px;" onclick="closePopup()">Tutup Surat</button>  
+  </div>  
+</div>  <script>  
+function nextPage(){  
+    const p1 = document.getElementById("page1");  
+    const p2 = document.getElementById("page2");  
+    p1.classList.add("exit");  
+    setTimeout(() => {  
+        p1.classList.remove("active");  
+        p2.classList.add("active");  
+    }, 400);  
+}  
+  
+function animateAndOpen() {  
+    const wrapper = document.getElementById("envWrapper");  
+    if(wrapper.classList.contains("open")) return;  
+    wrapper.classList.add("open");  
+    setTimeout(() => { document.getElementById("popup").classList.add("show"); }, 600);  
+}  
+  
+function closePopup(){  
+    document.getElementById("popup").classList.remove("show");  
+    setTimeout(() => {  
+        const wrapper = document.getElementById("envWrapper");  
+        wrapper.classList.remove("open");  
+        document.getElementById("page2-title").innerHTML = "Ready for the cake? 🎂";  
+        const btn = document.getElementById("toPage3");  
+        btn.style.display = "block";  
+        setTimeout(() => btn.style.opacity = "1", 200);  
+    }, 400);  
+}  
+  
+function goToPage3() {  
+    document.getElementById("page2").classList.remove("active");  
+    document.getElementById("page3").classList.add("active");  
+}  
+  
+let isBlown = false;  
+function blowAllCandles() {  
+    if(isBlown) return;  
+    isBlown = true;  
+    const flames = document.querySelectorAll('.flame-modern');  
+    flames.forEach((flame) => {  
+        flame.classList.add('out');  
+        for(let i=0; i<6; i++) {  
+            const emoji = document.createElement('div');  
+            emoji.className = 'pop-emoji';  
+            emoji.innerHTML = ['🎉','✨','🥳','💖','🎂'][Math.floor(Math.random()*5)];  
+            emoji.style.left = '50%';  
+            emoji.style.top = '0';  
+            emoji.style.setProperty('--tx', (Math.random()*250 - 125) + 'px');  
+            emoji.style.setProperty('--ty', (Math.random()*-250 - 50) + 'px');  
+            flame.parentElement.appendChild(emoji);  
+            setTimeout(() => emoji.remove(), 1500);  
+        }  
+    });  
+    setTimeout(() => {  
+        document.getElementById("hbd-text").classList.add("visible");  
+        startConfetti();  
+    }, 400);  
+}  
+  
+function createHeart() {  
+    const heart = document.createElement("div");  
+    heart.className = "heart-shape";   
+    heart.innerHTML = ["🌸","✨","💖","🎂"][Math.floor(Math.random()*4)];   
+    heart.style.left = Math.random() * 100 + "vw";  
+    heart.style.bottom = "-5vh";  
+    heart.style.fontSize = (Math.random() * 10 + 15) + "px";  
+    heart.style.animation = `floatUp ${(Math.random() * 3 + 4)}s linear forwards`;  
+    document.body.appendChild(heart);  
+    setTimeout(() => heart.remove(), 6000);  
+}  
+  
+const styleSheet = document.createElement("style");  
+styleSheet.innerText = `@keyframes floatUp { to { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }`;  
+document.head.appendChild(styleSheet);  
+setInterval(createHeart, 400);  
+  
+const canvas = document.getElementById('confetti-canvas');  
+const ctx = canvas.getContext('2d');  
+function startConfetti() {  
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;  
+    let parts = [];  
+    for (let i = 0; i < 100; i++) {  
+        parts.push({   
+            x: Math.random() * canvas.width,   
+            y: Math.random() * canvas.height - canvas.height,   
+            s: Math.random() * 8 + 4,   
+            c: `hsl(${Math.random() * 360}, 100%, 70%)`,   
+            v: Math.random() * 4 + 2  
+        });  
+    }  
+    function draw() {  
+        ctx.clearRect(0, 0, canvas.width, canvas.height);  
+        parts.forEach(p => {   
+            p.y += p.v;   
+            p.x += Math.sin(p.y/30);  
+            ctx.fillStyle = p.c;   
+            ctx.fillRect(p.x, p.y, p.s, p.s);   
+            if(p.y > canvas.height) p.y = -20;   
+        });  
+        requestAnimationFrame(draw);  
+    }  
+    draw();  
+}  
+</script>  </body>  
+</html>
